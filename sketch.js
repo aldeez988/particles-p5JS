@@ -1,8 +1,11 @@
 
 const gravity = 0.3;
 const numParticles = 1;
+const bounciness = 0.9;
 let particles=[];
 
+let minHue;
+ 
 function randomPosition (){
   const x =random(0,width);
   const y =random(0,height);
@@ -21,7 +24,7 @@ function randomVelocity (){
   }
 }
 function randomSize(){
-  return random(60,100);
+  return random(20,100);
 }
 function createParticle(){
   colorMode(HSB, 100);
@@ -30,7 +33,7 @@ function createParticle(){
     pos:randomPosition(),
     vel:randomVelocity(),
     size:randomSize(),
-    color: color(random(0, 15), 60, 90)
+    color: color(random(minHue, minHue + 30), 60, 90)
   }
 }
 function drawParticle(particle){
@@ -38,7 +41,8 @@ function drawParticle(particle){
   stroke('white');
   strokeWeight(4)
   noStroke();
-  square(particle.pos.x,particle.pos.y,particle.size);
+  rectMode(CENTER);
+  circle(particle.pos.x, particle.pos.y, particle.size);
 }
 function update(){
   particles.forEach(particle => {
@@ -48,8 +52,9 @@ function update(){
       particle.vel.x *= -1 ;
 
     }
+    //bounce off floor
     if(particle.pos.y > 800){
-      particle.vel.y *= -1;
+      particle.vel.y *= - bounciness;
      }
     particle.vel.y += gravity; 
   });
@@ -63,6 +68,8 @@ function draw(){
   update();
 }
 function setup(){
+  minHue = random(0, 70);
+
   createCanvas(windowWidth, windowHeight);
   for(i = 0 ; i<numParticles; i++){
    particles.push(createParticle()); 
@@ -71,9 +78,19 @@ function setup(){
 
 function mousePressed() {
   for(let i=0; i<8 ; i++){
-  const particle =createParticle();
-  particle.pos.x = mouseX;
-  particle.pos.y = mouseY;
-  particles.push(particle);
+    createParticleAtMouse();
   }
+}
+function mouseDragged(){
+  createParticleAtMouse(); 
+}
+
+function createParticleAtMouse(){
+    const particle =createParticle();
+    particle.pos.x = mouseX;
+    particle.pos.y = mouseY;
+    particles.push(particle);
+}
+function keyPressed(){
+  particles = [];
 }
