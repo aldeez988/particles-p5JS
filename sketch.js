@@ -70,8 +70,6 @@ function draw(){
   });
   update();
   limitNumberOfParticles();
-  fill('black')
-  text("d.o.: "+deviceOrientation, 10, 40);
 }
 function limitNumberOfParticles(){
   particles.splice(maxNumOfParticles);
@@ -115,4 +113,8 @@ function createParticleAtMouse(x,y){
 function keyPressed(){
   //particles = [];
   shouldBounce = !shouldBounce;
+}
+
+function deviceShaken(){
+  particles = [];
 }
