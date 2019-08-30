@@ -1,7 +1,8 @@
 
+const gravity = 0.3;
 const numParticles = 200;
 let particles=[];
-const gravity = 0.4;
+
 function randomPosition (){
   const x =random(0,width);
   const y =random(0,height);
@@ -19,14 +20,17 @@ function randomVelocity (){
     y
   }
 }
+function randomSize(){
+  return random(60,100);
+}
 function createParticle(){
-  colorMode(HSB, 1);
+  colorMode(HSB, 100);
   
   return{
     pos:randomPosition(),
     vel:randomVelocity(),
-    size:random(10,30),
-    color: color(random([0, 0.1]), 0.4, 1)
+    size:randomSize(),
+    color: color(random(0, 15), 60, 90)
   }
 }
 function drawParticle(particle){
