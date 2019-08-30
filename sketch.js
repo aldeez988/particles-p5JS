@@ -1,6 +1,6 @@
 
 const gravity = 0.3;
-const numParticles = 200;
+const numParticles = 1;
 let particles=[];
 
 function randomPosition (){
@@ -38,7 +38,7 @@ function drawParticle(particle){
   stroke('white');
   strokeWeight(4)
   noStroke();
-  circle(particle.pos.x,particle.pos.y,particle.size);
+  square(particle.pos.x,particle.pos.y,particle.size);
 }
 function update(){
   particles.forEach(particle => {
@@ -63,9 +63,17 @@ function draw(){
   update();
 }
 function setup(){
-  frameRate(100)
   createCanvas(windowWidth, windowHeight);
   for(i = 0 ; i<numParticles; i++){
    particles.push(createParticle()); 
+  }
+}
+
+function mousePressed() {
+  for(let i=0; i<8 ; i++){
+  const particle =createParticle();
+  particle.pos.x = mouseX;
+  particle.pos.y = mouseY;
+  particles.push(particle);
   }
 }
